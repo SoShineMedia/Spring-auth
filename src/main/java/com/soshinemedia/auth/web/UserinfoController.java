@@ -23,8 +23,20 @@ public class UserinfoController {
     private List<Case> cases;
 
     @SuppressWarnings("rawtypes")
-	@GetMapping("/{id}")
+    @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
+        Map<Object, Object> model = new HashMap<>();
+        model.put("username", userDetails.getUsername());
+        model.put("roles", userDetails.getAuthorities()
+                .stream()
+                .map(a -> ((GrantedAuthority) a).getAuthority())
+                .collect(toList())
+        );
+        return ok(model);
+    }
+
+	@GetMapping("/{id}")
+    public ResponseEntity getUser(@AuthenticationPrincipal UserDetails userDetails){
         Map<Object, Object> model = new HashMap<>();
         model.put("username", userDetails.getUsername());
         model.put("roles", userDetails.getAuthorities()
@@ -35,8 +47,43 @@ public class UserinfoController {
         return ok(model);
     }
 
+
     @GetMapping("/{id}/casess")
-    public ResponseEntity cases(@AuthenticationPrincipal UserDetails userDetails,@RequestParam(name = "brand", required = false) String[] brands) {
+    public ResponseEntity getCases(@AuthenticationPrincipal UserDetails userDetails,@RequestParam(name = "brand", required = false) String[] brands) {
+        Map<Object, Object> model = new HashMap<>();
+        model.put("username", userDetails.getUsername());
+        model.put("roles", userDetails.getAuthorities()
+                .stream()
+                .map(a -> ((GrantedAuthority) a).getAuthority())
+                .collect(toList())
+        );
+
+        if (brands == null || brands.length == 0) {
+            return ok(model);
+        } else {
+
+            return ok(model);
+        }
+    }
+    @PostMapping("/{id}/casess")
+    public ResponseEntity saveCases(@AuthenticationPrincipal UserDetails userDetails,@RequestParam(name = "brand", required = false) String[] brands) {
+        Map<Object, Object> model = new HashMap<>();
+        model.put("username", userDetails.getUsername());
+        model.put("roles", userDetails.getAuthorities()
+                .stream()
+                .map(a -> ((GrantedAuthority) a).getAuthority())
+                .collect(toList())
+        );
+
+        if (brands == null || brands.length == 0) {
+            return ok(model);
+        } else {
+
+            return ok(model);
+        }
+    }
+    @PutMapping("/{id}/casess")
+    public ResponseEntity updateCases(@AuthenticationPrincipal UserDetails userDetails,@RequestParam(name = "brand", required = false) String[] brands) {
         Map<Object, Object> model = new HashMap<>();
         model.put("username", userDetails.getUsername());
         model.put("roles", userDetails.getAuthorities()
